@@ -1,0 +1,124 @@
+/* Student ID:2018229033
+      Student Name: YihaiDuan
+      Date:2019.2.20
+      File: movie css file */
+body {
+	background-image: url(../images/moviebg.png);
+}
+#header {
+	background-image: url(../images/rancidbannerbg.png);
+	background-repeat: repeat-x;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	height: 50px;
+}
+#movieName {
+	font-size: 24pt;
+	font-weight: bold;
+	font-family: Georgia;
+	text-align: center;
+	text-shadow: 3px 3px #999999;
+}
+#divTotal {
+	background-color: #A2B964;
+	border-radius: 20px 20px 20px 20px;
+	box-shadow: 5px 5px 5px gray;
+	overflow: hidden;
+	margin-left: auto;
+  	margin-right: auto;
+  	margin-bottom: 50px;
+  	width: 800px;
+}
+#divComment{
+	background-color: #EEEEEE;
+	margin: 0px;
+	width: 550px;
+	overflow: hidden;
+
+}
+#commentL {
+	width: 47%;
+	float: left;
+	padding-left: 8px;
+}
+#commentR {
+	width: 47%;
+	float: right;
+	padding-right: 8px;
+}
+#rotten {
+	background-image: url(../images/rottenlargebg.png);
+	background-repeat: repeat-x;
+	width: 550px;
+	height: 83px;	
+}
+#spanRotten {
+	color: red;
+	font-size: 48pt;
+	font-weight: bold;
+	position: absolute;
+
+}
+.quote {
+	background-color: #FFFFFF;
+	border: 2px solid #CCCCCC;
+	margin-top: 10px;
+	font-size: 10pt;
+	font-family: Georgia;
+	border-radius: 20px;
+	padding: 8px;
+}
+.reviewer{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-size: 11pt;
+
+}
+
+.quoteIcon{
+	float: left;
+	padding-right: 5px;
+}
+#divR {
+	float: right;
+	width: 250px;
+}
+#information{
+	background-color: #A2B964;
+	padding-left: 10pt;
+	font-size: 10pt;
+	font-family: Arial;
+}
+dd {
+	padding-bottom: 10px;
+	font-weight: font;
+}
+dd ul {
+	list-style-type: none;
+	padding-left: 0;
+	padding-top: 0;
+	margin-top: 0;
+}
+span {
+	font-weight: bold;
+}
+#PBottom {
+	background-color: #A2B964;	
+	clear: right;
+	text-align: center;
+}
+#gobacks {
+	position: fixed;
+	top: 60px;
+	right: 10px;
+}
+#addreview {
+	text-align: center;
+	box-shadow: 2px 2px 2px gray;
+  	border-radius: 10px;
+}
+
+#addreview a {
+	text-decoration: none;
+}

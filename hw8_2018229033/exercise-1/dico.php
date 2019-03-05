@@ -1,0 +1,122 @@
+<?php
+
+$dico = array();
+
+$dico["acronym"] = "首字母缩略词";
+$dico["adapt"] = "适应";
+$dico["adapted"] = "适应";
+$dico["add"] = "增加";
+$dico["added"] = "增加";
+$dico["all"] = "所有";
+$dico["also"] = "也";
+$dico["although"] = "虽然";
+$dico["and"] = "和";
+$dico["are"] = "是";
+$dico["ask"] = "要求";
+$dico["attractive"] = "有吸引力";
+$dico["be"] = "是";
+$dico["between"] = "在之间";
+$dico["big"] = "大";
+$dico["block"] = "块";
+$dico["bold"] = "大胆";
+$dico["but"] = "但是";
+$dico["called"] = "叫";
+$dico["can"] = "能";
+$dico["class"] = "类";
+$dico["closing"] = "关闭";
+$dico["code"] = "代码";
+$dico["comments"] = "评论";
+$dico["contains"] = "包含";
+$dico["create"] = "创造";
+$dico["easily"] = "容易地";
+$dico["easy"] = "容易";
+$dico["fairly"] = "相当";
+$dico["food"] = "食物";
+$dico["for"] = "为";
+$dico["found"] = "找到";
+$dico["full"] = "充分";
+$dico["grapes"] = "葡萄";
+$dico["have"] = "有";
+$dico["hello"] = "你好";
+$dico["here"] = "这里";
+$dico["ideal"] = "理想";
+$dico["images"] = "图象";
+$dico["in"] = "in: 在";
+$dico["including"] = "包括";
+$dico["introduction"] = "介绍";
+$dico["is"] = "是";
+$dico["it"] = "它";
+$dico["italic"] = "斜体字";
+$dico["its"] = "它";
+$dico["latest"] = "后";
+$dico["make"] = "做";
+$dico["meaning"] = "意味";
+$dico["means"] = "意味";
+$dico["more"] = "更多";
+$dico["my"] = "我";
+$dico["neat"] = "整洁";
+$dico["need"] = "需要";
+$dico["needed"] = "需要";
+$dico["normal"] = "正常";
+$dico["on"] = "在";
+$dico["open"] = "开放";
+$dico["opening"] = "打开";
+$dico["or"] = "或者";
+$dico["organised"] = "组织";
+$dico["other"] = "其他";
+$dico["page"] = "页";
+$dico["paragraph"] = "段";
+$dico["permission"] = "允许";
+$dico["placed"] = "安置";
+$dico["please"] = "请";
+$dico["plenty"] = "丰足";
+$dico["possible"] = "可能";
+$dico["quite"] = "相当";
+$dico["related"] = "相关";
+$dico["rights"] = "权利";
+$dico["see"] = "看见";
+$dico["set"] = "集合";
+$dico["should"] = "应该";
+$dico["shout"] = "呼喊";
+$dico["showing"] = "显示";
+$dico["simple"] = "简单";
+$dico["source"] = "来源";
+$dico["span"] = "间距";
+$dico["special"] = "特别";
+$dico["strong"] = "强";
+$dico["styles"] = "样式";
+$dico["tag"] = "标记";
+$dico["tags"] = "标记";
+$dico["template"] = "模板";
+$dico["text"] = "文本";
+$dico["that"] = "那";
+$dico["there"] = "那里";
+$dico["these"] = "这些";
+$dico["this"] = "这";
+$dico["too"] = "也是";
+$dico["tried"] = "试验过";
+$dico["use"] = "用途";
+$dico["used"] = "使用";
+$dico["uses"] = "用途";
+$dico["using"] = "使用";
+$dico["wanted"] = "要";
+$dico["welcome"] = "欢迎";
+$dico["when"] = "当";
+$dico["which"] = "哪些";
+$dico["wine"] = "酒";
+$dico["with"] = "与";
+$dico["without"] = "没有";
+$dico["words"] = "词";
+$dico["work"] = "工作";
+$dico["you"] = "您";
+
+$word = $_GET['word'];
+
+if ( array_key_exists($word,$dico) ) {
+	echo "$word: " . $dico[$word];
+}
+else {
+	echo "$word: SORRY, NO TRANSLATION";
+}
+
+?>

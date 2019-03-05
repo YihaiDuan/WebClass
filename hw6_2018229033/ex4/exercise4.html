@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab #6 - Exercise 4</title>
+        <script src="exercise4.js"></script>
+        <style>
+            div#main {
+                text-align: center;
+            }
+            div#main > header {
+                text-align: left;
+            }
+            img.small {
+                width: 112px;
+            }
+            img#realsize {
+                width: 580px;
+            }
+            p#legend {
+                font-size: 200%;
+                font-weight: bolder;
+                font-style: italic;
+                color: gray;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="main">
+            <header>
+                <h1>Lab #6 - Exercise 4</h1>
+            </header>
+            
+            <div>
+                <div class="line">
+                    <img class="small" src="../images/image-1.jpg" title="Blue rope" alt="Image" onmouseover="show(this);" />
+                    <img class="small" src="../images/image-2.jpg" title="Bridge" alt="Image" onmouseover="show(this);" />
+                    <img class="small" src="../images/image-3.jpg" title="Fall" alt="Image" onmouseover="show(this);" />
+                    <img class="small" src="../images/image-4.jpg" title="Ship" alt="Image" onmouseover="show(this);" />
+                    <img class="small" src="../images/image-5.jpg" title="Ocean" alt="Image" onmouseover="show(this);" />
+                </div>
+                <div class="line">
+                    <img class="small" src="../images/image-6.jpg" title="Snow" alt="Image" onmouseover="show(this);" />
+                    <img class="small" src="../images/image-7.jpg" title="Great wall" alt="Image" onmouseover="show(this);" />
+                    <img class="small" src="../images/image-8.jpg" title="Forest" alt="Iimage" onmouseover="show(this);" />
+                    <img class="small" src="../images/image-9.jpg" title="Tree" alt="Image" onmouseover="show(this);" />
+                    <img class="small" src="../images/image-10.jpg" title="Arch" alt="Image" onmouseover="show(this);" />
+                </div>                
+            </div>
+            <img id="realsize" src="../images/image-1.jpg" alt="Image" />
+            <p id="legend">
+                The legend (i.e. the value of the "title" attribute of the hovered 'img' element) should show up here
+            </p>
+        </div>
+    </body>
+</html>

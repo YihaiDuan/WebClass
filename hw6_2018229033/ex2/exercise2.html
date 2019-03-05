@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab #6 - Exercise 2</title>
+        <script src="exercise2.js"></script>
+        <style>
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+            }
+            .hide {
+                display: none;
+            }
+            section#userinput {
+                text-align: center;
+                width: 300px;
+                padding: 10px;
+                border: dotted 1px gray;
+            }
+            div.input {
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }  
+            div.input label {
+                display: inline-block;
+                text-align: left;
+                width: 150px;
+            }
+            input.userinput {
+                border: dotted 1px gray;
+                width: 100px;
+            }
+        </style>        
+    </head>
+
+    <body>
+        <header>
+            <h1>Lab #6 - Exercise 2</h1>
+        </header>
+        
+        <form action="exercise2.php" method="post" onsubmit="return check();">
+            <h2>Registration form</h2>
+            <div>
+                <div class="input">
+                    <label>Last name:</label><input id="last" name="last" class="userinput" type="text" />
+                </div>           
+                <div class="input">
+                    <label>First name:</label><input id="first" name="first" class="userinput" type="text" />
+                </div>
+                <div class="input" >
+                    <label>gender: </label>
+                    <input type="radio" name="gender" value="male" onchange="showMariage();" /> M
+                    <input type="radio" name="gender" value="female" onchange="showMariage();" /> F
+                </div>
+                <div id="married" class="hide input">
+                    <label>Married:</label>
+                    <input type="radio" name="mariage" value="yes" onchange="showMaiden();" /> Y
+                    <input type="radio" name="mariage" value="no" onchange="showMaiden();" /> N
+                </div>
+                <div id="maiden" class="input hide">
+                    <label>Maiden name:</label><input id="maidename" name="maidename" class="userinput" type="text" />
+                </div>
+            </div>
+            <input type="submit" value="Submit" />
+            <input type="reset" value="Cancel" onclick="cancel()" />
+        </form>
+    </body>
+</html>

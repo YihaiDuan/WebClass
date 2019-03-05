@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Lab #6 - Exercise 1</title>
+        <script src="exercise1.js"></script>
+        <style>
+            p {
+                text-align: center;
+            }
+            p#resultat {
+                font-weight: bolder;
+            }
+            div {
+                margin: auto;
+                width: 300px;
+                border: solid 1px black;
+                box-shadow: 5px 5px 5px gray;
+            }
+            #multiplication {
+                font-size: 130%;
+            }
+            #proposition {
+                width: 30px;
+                font-size: 120%;
+            }
+        </style>
+    </head>
+    <body onload="newMult()">
+        <header>
+            <h1>Lab #6 - Exercise 1</h1>
+        </header>
+        <div>
+            <p id="multiplication">
+                <span id="nbr1">0</span> x <span id="nbr2">0</span> = <input id="answer" type="text" />
+            </p>
+            <p>
+                <input id="button" type="button" value="Check" onclick="check();" />
+            </p>
+            <p id="result" style="visibility: hidden">
+                Here you should display the result (correct or incorrect answer)
+            </p>
+        </div>
+    </body>
+</html>

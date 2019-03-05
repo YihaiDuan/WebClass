@@ -1,0 +1,14 @@
+/* tooltip styles */
+
+
+div#tooltip {
+   position: fixed;
+   top: 30px;
+   right: 30px;
+   visibility: hidden;
+   background-color: #FFFC94;
+   border: 3px solid #A5A360;
+   border-radius: 10px;
+   padding: 10px;
+   font-size: 120%;
+}
