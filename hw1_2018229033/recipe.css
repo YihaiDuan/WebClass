@@ -1,0 +1,54 @@
+/* Student ID:2018229033
+      Student Name: YihaiDuan
+      Date:2019.2.18
+      File: recipe css file */
+body {
+	background-color: white;
+	background-image: url('silverware.jpg');
+	padding-right:50px;
+	padding-left:50px;
+	color: #404040;
+	font-size: 12pt;
+	font-family: Georgia;
+}
+h1 {
+	background-color: #EEEEEE;
+	color: #A4A400;
+	font-family: Lucida Sans Unicode;
+	font-size: 22pt;
+	text-align: center;
+	font-weight: bold;
+	text-decoration:underline
+}
+h2 {
+	background-color: #EEEEEE;
+	color: #A4A400;
+	font-family: Lucida Sans Unicode;
+	font-size: 18pt;
+	text-align: left;
+	text-decoration:underline
+}
+ul {
+	list-style-type: none;
+}
+ol ul {
+	list-style-type: square;
+}
+a {
+	color: #A4A400;
+	text-decoration-line: none;
+}
+blockquote {
+	background-color: #FFFFA8;
+	font-style: italic;
+}
+p img {
+	padding-right: 4px;
+	padding-left:  4px;
+}
+div p {
+	background-color: #BFBF56;
+	text-align: right;
+	font-size: 10pt;
+	color: white;
+}
