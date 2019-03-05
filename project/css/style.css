@@ -1,0 +1,30 @@
+
+table {
+	width: 400px;
+	border-collapse:collapse;
+	margin:50px;
+	z-index: 1;
+}
+table td {
+	height: 40px;
+	width: 40px;
+	border: 1px solid #b4b4ff;
+}
+div.ship_r {
+	border: 1px solid #00f;
+	height: 2em;
+	width: 2em;
+	z-index: 2;
+	position: relative;
+}
+div.ship_draggable {
+	cursor: move;
+
+}
+.outside_cell {
+	border: 0;
+	text-align: center;
+}
+/*body {
+	background-color: red;
+}*/
