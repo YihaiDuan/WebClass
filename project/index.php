@@ -23,10 +23,8 @@
 			<td class="outside_cell"><?=$arr[$j-1]?></td>
 		<?php } else if($i>0 && $j==0){ ?>
 			<td class="outside_cell"><?=$i?></td>
-		<?php } else if($i==2 && $j==2){ ?>
-			<td class="battle_cell"><div draggable="true" class="ship_r ship_draggable">1</div></td>
-			<?php }else { ?>
-				<td class="battle_cell"></td>
+		<?php }else { ?>
+				<td class="battle_cell empty"><div class="ship_content"></div></td>
 		<?php }}?>
 	</tr>
 	<?php }?>
