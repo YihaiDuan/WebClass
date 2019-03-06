@@ -25,7 +25,7 @@
 		<?php } else if($i>0 && $j==0){ ?>
 			<td class="outside_cell"><?=$i?></td>
 		<?php }else { ?>
-				<td class="battle_cell empty"><div class="ship_content"></div></td>
+				<td class="battle_cell empty" id = "<?=($i-1)*10+$j-1?>"><div class="ship_content" ></div></td>
 		<?php }}?>
 	</tr>
 	<?php }?>

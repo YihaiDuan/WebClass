@@ -2,7 +2,7 @@
 table {
 	border-collapse:collapse;
 	position: relative;
-	z-index: 1;	
+	z-index: 3;	
 }
 table td {
 	padding: 0;
@@ -13,7 +13,7 @@ div.ship_r {
 	border: 3px solid #00f;
 	height: 2em;
 	width: 10em;
-	z-index: 2;
+	z-index: 1;
 	margin: -2px;
     left: 0;
     top: 0;
@@ -30,6 +30,7 @@ div.ship_draggable {
 .ship_content {
 	width: 2em;
 	height: 2em;
+	z-index: 2;
 }
 /*body {
 	background-color: red;
