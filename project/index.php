@@ -9,6 +9,7 @@
 	<title>battle ship</title>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<script type="text/javascript" src="js/ship.js"></script>
+	<script type="text/javascript" src="js/mouse.js"></script>
 </head>
 <body>
 <h1>Battle ship</h1>

@@ -2,23 +2,34 @@ window.onload = function() {
 	var ship_num = 5;
 	var row = 10;
 	var rand = Math.floor(Math.random()*10);
-	var arr = [18,18,6,8,10];
+	oneOffset = 32;
+	var arr = [4,6,6,8,10];
 	function allowDrop(ev){
 		ev.preventDefault();
 		//console.log(ev);
 	}
 	function drag(ev){
 		ev.dataTransfer.setData("Text",ev.target.id);
+		ev.dataTransfer.setData("offX",ev.offsetX);
+		//console.log(ev.offsetX);
+		//alert(ev.target.style.visibility);
 	}
 	function drop(ev){
 		ev.preventDefault();
 		var ship = ev.dataTransfer.getData("Text");
+		var offX = ev.dataTransfer.getData("offX");
+		var off = parseInt(offX/oneOffset);
+		console.log(off);
+		var pre = this.parentNode;console.log(pre);
+		for(var i=0; i<off; i++){
+			pre = pre.previousElementSibling;
+		}
 		var parent_td = document.getElementById(ship).parentNode.parentNode;
 		parent_td.className = "battle_cell empty";
 		parent_td.ondrop = drop;
 		parent_td.ondragover = allowDrop;
 		console.log(ev);
-		ev.target.appendChild(document.getElementById(ship));
+		pre.appendChild(document.getElementById(ship));
 		ev.target.parentNode.className = "battle_cell hasShip";
 		ev.target.ondrop = null;
 		ev.target.ondragover = null;
@@ -42,7 +53,7 @@ window.onload = function() {
 		do {
 			//alert(rand);
 			var rand = Math.floor(Math.random()*(100));
-			var remain = rand%row;s
+			var remain = rand%row;
 			var newRemain = remain + width > row ? row-width: remain;
 			rand = rand - remain + newRemain;
 		}while(!isEmpty(rand,width,tds_empty));
@@ -66,5 +77,6 @@ window.onload = function() {
 		tds_empty[i].childNodes[0].ondrop = drop;
 		tds_empty[i].childNodes[0].ondragover = allowDrop;
 	}
+
 	//alert(1);
 }
