@@ -4,6 +4,7 @@ window.onload = function() {
 	var rand = Math.floor(Math.random()*10);
 	oneOffset = 32;
 	var arr = [4,6,6,8,10,4,4,4,4,4,4];
+	var cell = [-11,-10,-9,9,10,11];
 	var tds = document.querySelectorAll(".empty");
 	function allowDrop(ev){
 		ev.preventDefault();
@@ -24,7 +25,7 @@ window.onload = function() {
 	function drag(ev){
 		ev.dataTransfer.setData("Text",ev.target.id);
 		ev.dataTransfer.setData("offX",ev.offsetX);
-		console.log(ev.target);
+		//console.log(ev.target);
 		ev.target.style.opacity = "0.4";
 		ev.target.style.zIndex = "-1";
 		removeShip(ev.target);
@@ -37,9 +38,9 @@ window.onload = function() {
 		var ship = ev.dataTransfer.getData("Text");
 		var offX = ev.dataTransfer.getData("offX");
 		var off = parseInt(offX/oneOffset);
-		console.log(off);
+		//console.log(off);
 		var pre = this;
-		console.log(ev.target.id);
+		//console.log(ev.target.id);
 		for(var i=0; i<off; i++){
 			pre = pre.previousElementSibling;
 		}
@@ -67,7 +68,7 @@ window.onload = function() {
 		return true;
 	}
 	function insertShip(rand,size){
-		console.log(size);
+		//console.log(size);
 		var left = rand-1,right = rand +size,top = rand-11,bottom = rand+9;
 		for (var j = 0; j < size; j++){
 			tds[rand+j].className = "busy_cell hasShip";
@@ -93,38 +94,90 @@ window.onload = function() {
 		    }
 		}
 	}
-	function removeOneCell(id){
-
+	function removeOneCell(id,shipid){
+		
+/*		for (var i = 0; i < cell.length; i++) {
+			var niber_id = id+cell[i];
+			//console.log(niber_id);
+			if(niber_id>=0 && niber_id<=99  ){
+				//console.log(niber_ship.id);
+				var niber_ship = tds[niber_id].childNodes[0].childNodes[0];
+				//console.log(typeof(niber_ship));
+				if (typeof(niber_ship) != "undefined") {
+					if(niber_ship.id != shipid){
+						//console.log(niber_ship.id);
+						return;
+					}
+					
+			}
+		}
+		}*/
+		//console.log(id);
+		
+		var left = id-1,right = id+1,top = id-11,bottom = id+9;
+		if(id%10 != 0){
+			if(tds[left].className == "busy_cell hasShip")
+				return;
+		}
+		if(id%10 != 9){
+			if(tds[right].className == "busy_cell hasShip")
+				return;
+		}
+		if(top>=-1){
+			//console.log(top);
+			for (var k = top; k < top+3; k++) {
+				if (parseInt(k/10) == parseInt(id/10)-1 && k>=0) {
+				if(tds[k].className == "busy_cell hasShip")
+				return;
+			}
+			}
+		}
+		if (bottom<99) {
+			for (var m = bottom; m < bottom+3; m++) {
+				//console.log("bo",m);
+				if(parseInt(m/10) == parseInt(id/10)+1){
+				if(tds[m].className == "busy_cell hasShip")
+				return;
+				}
+			}
+		}
+		console.log(id);
+		tds[id].className = "battle_cell empty";
+		
 	}
 	function removeShip(ship){
 		var order = ship.id.substring(4,5);
 		var rand = parseInt(ship.parentNode.parentNode.id);
 		var size = arr[order]/2;
-		console.log(order);
-		console.log(size);
+		//console.log(order);
+		//console.log(size);
 		var left = rand-1,right = rand +size,top = rand-11,bottom = rand+9;
 		for (var j = 0; j < size; j++){
 			tds[rand+j].className = "battle_cell empty";
 			//console.log(tds[rand+j].className);
 		}
-		 if(left >= 0){
-		 	tds[left].className = "battle_cell empty";
+		 if((left+10)%10 != 9){
+		 	removeOneCell(left,ship.id);
+		 	//tds[left].className = "battle_cell empty";
 		}	 
 		 if(rand%10+size < 10){
-		 	 tds[right].className = "battle_cell empty";
+		 	 removeOneCell(right,ship.id);
+		 	 //tds[right].className = "battle_cell empty";
 		 }
 		 if(top >= -1) {
 		   for (var k = top; k <= top+size+1; k ++) {
 		    	if(parseInt(k/10) == parseInt(rand/10)-1 && k>=0)
-		 	    tds[k].className = "battle_cell empty";
+		 	    removeOneCell(k,ship.id);
+		 	    //tds[k].className = "battle_cell empty";
 		    }
 		}
 		if(bottom < 99){
 		  for (var m = bottom; m <= bottom+size+1 ; m++) {
-				 console.log(m);
+				 //console.log(m);
 				if(parseInt(m/10) == parseInt(rand/10)+1) 
 				// console.log(m);
-				tds[m].className = "battle_cell empty";
+				removeOneCell(m,ship.id);
+				//tds[m].className = "battle_cell empty";
 		    }
 		}
 
