@@ -1,6 +1,24 @@
+.header {
+	width: 60%;
+	margin: auto;
+
+}
+h1 {
+
+}
+.notification {
+	background: #f8f8f8;
+	padding: .5em;
+	overflow: hidden;
+	position: relative;
+	width: 40%;
+	margin: auto;
+}
+
 #twoTable{
 	width: 100%;
 	margin: auto;
+	margin-top: 50px;
 }
 table {
 	border-collapse:collapse;
@@ -21,16 +39,29 @@ table td {
 	border: 1px solid #b4b4ff;
 	position: relative;
 }
-div.ship_r {
+
+#table1 div.ship_r {
 	border: 3px solid #00f;
 	background: rgba(0,0,255,.05);
 	height: 2em;
-	width: 10em;
+	width: 2em;
 	z-index: 1;
 	margin: -2px;
     left: 0;
     top: 0;
 	position: absolute;
+}
+#table2 div.ship_r {
+	border: 3px solid #36e868;
+	background: rgba(0,0,255,.05);
+	height: 2em;
+	width: 2em;
+	z-index: 1;
+	margin: -2px;
+    left: 0;
+    top: 0;
+	position: absolute;
+	visibility: hidden;
 }
 div.ship_draggable {
 	cursor: move;
@@ -61,6 +92,12 @@ div.ship_draggable {
     cursor: pointer !important;
     outline: 0;
     display: inline-block;
+}
+.battlefield-start-button__disabled {
+    cursor: default !important;
+    top: 0;
+    opacity: .5;
+    pointer-events: none;
 }
 span.left{
 	content: "";

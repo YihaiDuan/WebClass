@@ -12,7 +12,10 @@
 	<script type="text/javascript" src="js/simpleajax.js"></script>
 </head>
 <body>
-<h1>Battle ship</h1>
+<div class="header"><h1>Battle ship</h1>
+	<div class="notification">Arrange </div>
+</div>
+
 <div id="twoTable">
 	<table id="table1">
 		<tbody>
@@ -45,7 +48,7 @@
 			<?php } else if($i>0 && $j==0){ ?>
 				<td class="outside_cell"><?=$i?></td>
 			<?php }else { ?>
-					<td class="battle_cell empty" id = "table2<?=($i-1)*10+$j-1?>"><div class="ship_content" ><span class="left"></span><span class="right"></span></div></td>
+					<td class="battle_cell empty" id = "table2<?=($i-1)*10+$j-1?>"><div class="ship_content" ><div class="ship_r"><span class="left"></span><span class="right"></span></div></div></td>
 			<?php }}?>
 		</tr>
 		<?php }?>	

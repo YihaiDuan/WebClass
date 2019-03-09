@@ -262,27 +262,28 @@ window.onload = function() {
 		console.log(request.responseText);
 		var td = document.getElementById(judging_id);
 		if(request.responseText == "1"){
-			console.log(11);
-			td.childNodes[0].childNodes[0].style.visibility = "visible";
-			td.childNodes[0].childNodes[1].style.visibility = "visible";
+			td.childNodes[0].childNodes[0].childNodes[0].style.visibility = "visible";
+			td.childNodes[0].childNodes[0].childNodes[1].style.visibility = "visible";
 		}
 	}
 	var judging_id;
+	var player_id;
 	td_table = document.querySelectorAll("#table2 .battle_cell");
 	for (var i = 0; i < td_table.length; i++) {
 		td_table[i].onmouseover = function(){
-			this.style.border = "2px solid #36e868";
+			this.childNodes[0].childNodes[0].style.visibility = "visible";
 		}
 		td_table[i].onmouseout = function(){			
-			this.style.border = "1px solid #b4b4ff";
+			this.childNodes[0].childNodes[0].style.visibility = "hidden";
 		}
 		td_table[i].onclick = function() {
 			judging_id = this.id;
-			new SimpleAjax('judge.php', 'GET', "ship="+this.id, shipJudge);
+			new SimpleAjax('judge.php', 'GET', "player_id="+player_id+"&ship="+this.id, shipJudge);
 		}
 	}
 	function ok(request){
-		console.log(request.responseText);
+		player_id = request.responseText;
+		console.log(player_id);
 	}
 	document.querySelector(".start-button").onclick = function(){
 		var start_td = document.querySelectorAll(".hasShip");
@@ -291,7 +292,10 @@ window.onload = function() {
 			cell[i] = start_td[i].id;
 		}
 		new SimpleAjax('save.php', 'GET', "ship="+cell, ok);
-		console.log(cell);
+		this.className += " battlefield-start-button__disabled";
+		var msg = document.querySelector(".notification");
+		msg.innerHTML = "Waiting for Opponent"
+		//console.log(cell);
 	}
 
 
