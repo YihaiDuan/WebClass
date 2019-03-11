@@ -258,33 +258,94 @@ window.onload = function() {
 		tds_empty[i].ondrop = drop;
 		tds_empty[i].ondragover = allowDrop;
 	}
+	function addDot(id) {
+		var td = document.getElementById(id);
+		var dot = document.createElement("span");
+		dot.className = "dot";
+		td.childNodes[0].childNodes[0].appendChild(dot);
+		td.childNodes[0].style.background = "#fbf3be";
+		td.childNodes[0].childNodes[0].style.background = "transparent";
+		td.childNodes[0].childNodes[0].style.border = "none";
+		td.childNodes[0].childNodes[0].style.visibility = "visible";
+		td.className = "busy_cell empty";
+		td.onmouseover = null;
+		td.onmouseout = null;
+		td.onclick = null;
+	}
+	function judgeAround(id){
+		id = parseInt(id.substring(6));
+		console.log(id);
+		var topLeft = id - 11, topRight = id - 9, bottomLeft = id + 9, bottomRight = id+11;
+		if(topLeft>=0 && parseInt(topLeft/10)+1 == parseInt(id/10) ){
+			console.log(topLeft);
+			addDot("table2"+topLeft);
+		}
+		if(topRight>=0 && parseInt(topRight/10)+1 == parseInt(id/10) ){
+			addDot("table2"+topRight);
+		}
+		if(bottomLeft<=99 && parseInt(bottomLeft/10)-1 == parseInt(id/10)){
+			console.log(bottomLeft);
+			addDot("table2"+bottomLeft);
+		}
+		if(bottomRight<=99 && parseInt(bottomRight/10)-1 == parseInt(id/10) ){
+			addDot("table2"+bottomRight);
+		}
+	}
 	function shipJudge(request){
 		console.log(request.responseText);
 		var td = document.getElementById(judging_id);
 		if(request.responseText == "1"){
-			td.childNodes[0].childNodes[0].childNodes[0].style.visibility = "visible";
-			td.childNodes[0].childNodes[0].childNodes[1].style.visibility = "visible";
+			var spanLeft = document.createElement("span");
+			spanLeft.className = "left";
+			var spanRight = document.createElement("span");
+			spanRight.className = "right";
+			td.childNodes[0].childNodes[0].appendChild(spanLeft);
+			td.childNodes[0].childNodes[0].appendChild(spanRight);
+			td.childNodes[0].childNodes[0].style.border = "3px solid red";
+			td.className = "busy_cell hasShip";
+			judgeAround(judging_id);
+
+		}
+		else{
+			addDot(judging_id);
+			endMouse();
 		}
 	}
 	var judging_id;
 	var player_id;
-	td_table = document.querySelectorAll("#table2 .battle_cell");
-	for (var i = 0; i < td_table.length; i++) {
-		td_table[i].onmouseover = function(){
-			this.childNodes[0].childNodes[0].style.visibility = "visible";
-		}
-		td_table[i].onmouseout = function(){			
-			this.childNodes[0].childNodes[0].style.visibility = "hidden";
-		}
-		td_table[i].onclick = function() {
-			judging_id = this.id;
-			new SimpleAjax('judge.php', 'GET', "player_id="+player_id+"&ship="+this.id, shipJudge);
+	function stratMouse(){
+		td_table = document.querySelectorAll("#table2 .battle_cell");
+		for (var i = 0; i < td_table.length; i++) {
+			td_table[i].onmouseover = function(){
+				this.childNodes[0].childNodes[0].style.visibility = "visible";
+			}
+			td_table[i].onmouseout = function(){			
+				this.childNodes[0].childNodes[0].style.visibility = "hidden";
+			}
+			td_table[i].onclick = function() {
+				judging_id = this.id;
+				new SimpleAjax('judge.php', 'GET', "player_id="+player_id+"&ship="+this.id, shipJudge);
+			}
 		}
 	}
+	function endMouse(){
+		td_table = document.querySelectorAll("#table2 .battle_cell");
+		//console.log(td_table);
+		for (var i = 0; i < td_table.length; i++) {
+			td_table[i].onmouseover = null;
+			td_table[i].onmouseout = null;
+			td_table[i].onclick = null;
+		}
+	}
+
+
 	function ok(request){
 		player_id = request.responseText;
-		console.log(player_id);
+		console.log(request.responseText);
+		//console.log(player_id);
 	}
+	var waitingOpponentInterval = null;
+	var judgedFieldInterval = null;
 	document.querySelector(".start-button").onclick = function(){
 		var start_td = document.querySelectorAll(".hasShip");
 		//console.log(start_td);
@@ -294,10 +355,63 @@ window.onload = function() {
 		new SimpleAjax('save.php', 'GET', "ship="+cell, ok);
 		this.className += " battlefield-start-button__disabled";
 		var msg = document.querySelector(".notification");
-		msg.innerHTML = "Waiting for Opponent"
+		msg.innerHTML = "Waiting for Opponent";
+		waitingOpponentInterval = setInterval(waitingOpponent,500);
 		//console.log(cell);
 	}
+	function waitingOpponentSuccess(request){
+		console.log(request.responseText);
+		
+		var msg = document.querySelector(".notification");
+		if(request.responseText == "1"){
+			clearInterval(waitingOpponentInterval);
+			waitingMoveInterval = setInterval(waitingMove,500);
+			judgedFieldInterval = setInterval(judgedField,1000);
+			if(player_id == "0"){
+				msg.innerHTML = "Game Start, Chose a feild";
+				stratMouse();
+			}
+			if(player_id == "1"){
+				msg.innerHTML = "Game Start, Waiting for the Opponent to chose first!";
+			}
+		}
+	}
+	function waitingOpponent(){		
+		new SimpleAjax('waitingOpponent.php','GET','pairid',waitingOpponentSuccess)
+	}
 
+	var waitingMoveInterval = null;
+	function waitingMoveSuccess(request){
+		//console.log(request.responseText);
+		if(request.responseText == player_id){
+			stratMouse();
+		}
+	}
+	function waitingMove(){
+		new SimpleAjax('waitingMove.php','GET','pairid',waitingMoveSuccess);
+	}
+	var judged_count = 0;
+	function judgedFieldSuccess(request){
+		var judged = request.responseText;
+		var judgedArr = judged.split(',');
+		console.log(judged_count);
+		for (var i = judged_count; i < judgedArr.length-1; i++) {
+			var td = document.getElementById(judgedArr[i]);
+			if(td.className == "busy_cell hasShip"){
+				var spanLeft = document.createElement("span");
+				spanLeft.className = "left";
+				var spanRight = document.createElement("span");
+				spanRight.className = "right";
+				td.childNodes[0].appendChild(spanLeft);
+				td.childNodes[0].appendChild(spanRight);
+			}
+		}
+		judged_count = judgedArr.length-1;
+		console.log(judgedArr);
+	}
+	function judgedField(){
+		new SimpleAjax('judgedField.php','GET',"player_id="+player_id,judgedFieldSuccess);
+	}
 
 	//alert(1);
 }

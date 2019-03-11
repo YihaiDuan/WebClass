@@ -52,7 +52,7 @@ table td {
 	position: absolute;
 }
 #table2 div.ship_r {
-	border: 3px solid #36e868;
+	border: 2px solid #36e868;
 	background: rgba(0,0,255,.05);
 	height: 2em;
 	width: 2em;
@@ -74,10 +74,7 @@ div.ship_draggable {
 .ship_content {
 	width: 2em;
 	height: 2em;
-	z-index: 2;
-}
-#table2 td {
-
+	z-index: 1;
 }
 .start-button {
 	border: 1px solid #d6d6d6;
@@ -110,7 +107,7 @@ span.left{
 	left: -25%;
 	width: 150%;
 	margin-left: -1px;
-	visibility: hidden;
+	visibility: visible;
 
 }
 span.right{
@@ -124,8 +121,19 @@ span.right{
 	left: -25%;
 	width: 150%;
 	margin-left: -1px;
-	visibility: hidden;
+	visibility: visible;
 
+}
+span.dot{
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 4px;
+    width: 4px;
+    background: #333;
+    border-radius: 50%;
+    margin-top: -2px;
+    margin-left: -2px;
 }
 
 /*body {
