@@ -3,8 +3,12 @@ window.onload = function() {
 	var row = 10;
 	var rand = Math.floor(Math.random()*10);
 	oneOffset = 32;
-	var arr = [4,6,6,8,10,4,4,4,4,4,4];
-	var cell = new Array();
+	var arr = [4,6,6,8,10];
+/*	var cell = new Array();
+	for (var i = 0; i < arr.length; i++) {
+		cell[i] = new Array();
+	}*/
+	var cell = [];
 	var tds = document.querySelectorAll("#table1 .empty");
 	function allowDrop(ev){
 		
@@ -258,13 +262,14 @@ window.onload = function() {
 		tds_empty[i].ondrop = drop;
 		tds_empty[i].ondragover = allowDrop;
 	}
-	function addDot(id) {
-		var td = document.getElementById(id);
+	function addDot(table,id) {
+		var td = document.getElementById(table+id);
 		var dot = document.createElement("span");
 		dot.className = "dot";
-		td.childNodes[0].childNodes[0].appendChild(dot);
-		td.childNodes[0].style.background = "#fbf3be";
-		td.childNodes[0].childNodes[0].style.background = "transparent";
+		dot.style.zIndex = "3";
+		td.childNodes[0].appendChild(dot);
+		if(table == "table2")
+			td.childNodes[0].querySelector(".ship_r").style.background = "transparent";
 		td.childNodes[0].childNodes[0].style.border = "none";
 		td.childNodes[0].childNodes[0].style.visibility = "visible";
 		td.className = "busy_cell empty";
@@ -272,43 +277,78 @@ window.onload = function() {
 		td.onmouseout = null;
 		td.onclick = null;
 	}
-	function judgeAround(id){
-		id = parseInt(id.substring(6));
-		console.log(id);
+	function judgeAround(table,id){
+		id = parseInt(id);
+		//console.log(id);
 		var topLeft = id - 11, topRight = id - 9, bottomLeft = id + 9, bottomRight = id+11;
 		if(topLeft>=0 && parseInt(topLeft/10)+1 == parseInt(id/10) ){
-			console.log(topLeft);
-			addDot("table2"+topLeft);
+			addDot(table,topLeft);
 		}
 		if(topRight>=0 && parseInt(topRight/10)+1 == parseInt(id/10) ){
-			addDot("table2"+topRight);
+			addDot(table,topRight);
 		}
 		if(bottomLeft<=99 && parseInt(bottomLeft/10)-1 == parseInt(id/10)){
-			console.log(bottomLeft);
-			addDot("table2"+bottomLeft);
+			addDot(table,bottomLeft);
 		}
 		if(bottomRight<=99 && parseInt(bottomRight/10)-1 == parseInt(id/10) ){
-			addDot("table2"+bottomRight);
+			addDot(table,bottomRight);
 		}
+	}
+	function okMsg(request){
+		console.log(request.responseText);
 	}
 	function shipJudge(request){
 		console.log(request.responseText);
 		var td = document.getElementById(judging_id);
-		if(request.responseText == "1"){
+		td.querySelector(".ship_r").style.background = "transparent";
+		td.childNodes[0].style.background = "#fbf3be";
+
+		if(request.responseText[0] == "0"){
+			addDot("",judging_id);
+			endMouse();
+		}
+		else{
 			var spanLeft = document.createElement("span");
 			spanLeft.className = "left";
 			var spanRight = document.createElement("span");
 			spanRight.className = "right";
 			td.childNodes[0].childNodes[0].appendChild(spanLeft);
 			td.childNodes[0].childNodes[0].appendChild(spanRight);
-			td.childNodes[0].childNodes[0].style.border = "3px solid red";
-			td.className = "busy_cell hasShip";
-			judgeAround(judging_id);
+			td.childNodes[0].childNodes[0].style.border = "none"
+			td.childNodes[0].childNodes[0].className += " ship"+request.responseText[1];
+			if(request.responseText[0] == "2"){
+				var shipClass = "ship"+request.responseText[1];
+				var doneShip = document.querySelectorAll("."+shipClass);
+				console.log(doneShip);
+				for (var i = 0; i < doneShip.length; i++) {
+					
+					doneShip[i].style.border = "3px solid red";
+				}
+				var dots = new Array();
+				var tdLeft = doneShip[0].parentNode.parentNode;
+				if(parseInt(tdLeft.id.substring(6))%10 != 0){
+					tdLeft = tdLeft.previousElementSibling;
+					addDot("",tdLeft.id);
+					dots[0] = tdLeft.id.substring(6);
+				}
+				var tdRight = doneShip[doneShip.length-1].parentNode.parentNode;
+				if(parseInt(tdRight.id.substring(6))%10 != 9){
+					tdRight = tdRight.nextElementSibling;
+					addDot("",tdRight.id);
+					dots[1] = tdRight.id.substring(6);
+				}
+				new SimpleAjax('save.php','GET','dots='+dots+'&player_id='+player_id,okMsg);
+				console.log("aa");
 
-		}
-		else{
-			addDot(judging_id);
-			endMouse();
+			}
+			td.className = "busy_cell hasShip";
+			td.onmouseover = null;
+			td.onmouseout = null;
+			td.onclick = null;
+			judgeAround("table2",judging_id.substring(6));
+			if(request.responseText[2] == "1"){
+				alert("You Win!");
+			}
 		}
 	}
 	var judging_id;
@@ -341,17 +381,31 @@ window.onload = function() {
 
 	function ok(request){
 		player_id = request.responseText;
-		console.log(request.responseText);
-		//console.log(player_id);
+		//console.log(request.responseText);
 	}
 	var waitingOpponentInterval = null;
 	var judgedFieldInterval = null;
+	var finishOneShipInterval = null;
 	document.querySelector(".start-button").onclick = function(){
 		var start_td = document.querySelectorAll(".hasShip");
-		//console.log(start_td);
-		for (var i = 0; i < start_td.length; i++) {
+/*		for (var i = 0; i < start_td.length; i++) {
 			cell[i] = start_td[i].id;
+		}*/
+		var ships = document.querySelectorAll("#table1 .ship_r");
+		for (var i = 0; i < ships.length; i++) {
+			var len = ships[i].style.width.replace(/em/,"");
+			td = ships[i].parentNode.parentNode;
+			len = parseInt(len)/2;
+			var row = {};
+			row.ship_id = ships[i].id;
+			var tds = 100+len;
+			for(var j=0; j<len; j++){
+				tds += "," + (parseInt(td.id)+j)
+			}
+			row.tds = tds;
+			cell.push(row);
 		}
+		cell = JSON.stringify(cell);
 		new SimpleAjax('save.php', 'GET', "ship="+cell, ok);
 		this.className += " battlefield-start-button__disabled";
 		var msg = document.querySelector(".notification");
@@ -360,13 +414,13 @@ window.onload = function() {
 		//console.log(cell);
 	}
 	function waitingOpponentSuccess(request){
-		console.log(request.responseText);
-		
+		//console.log(request.responseText);		
 		var msg = document.querySelector(".notification");
 		if(request.responseText == "1"){
 			clearInterval(waitingOpponentInterval);
 			waitingMoveInterval = setInterval(waitingMove,500);
 			judgedFieldInterval = setInterval(judgedField,1000);
+			finishOneShipInterval = setInterval(finishOneShip,500);
 			if(player_id == "0"){
 				msg.innerHTML = "Game Start, Chose a feild";
 				stratMouse();
@@ -394,24 +448,53 @@ window.onload = function() {
 	function judgedFieldSuccess(request){
 		var judged = request.responseText;
 		var judgedArr = judged.split(',');
-		console.log(judged_count);
 		for (var i = judged_count; i < judgedArr.length-1; i++) {
 			var td = document.getElementById(judgedArr[i]);
+			td.childNodes[0].style.background = "#fbf3be";
 			if(td.className == "busy_cell hasShip"){
 				var spanLeft = document.createElement("span");
 				spanLeft.className = "left";
+				spanLeft.style.zIndex = "3";
 				var spanRight = document.createElement("span");
 				spanRight.className = "right";
+				spanRight.style.zIndex = "3";
 				td.childNodes[0].appendChild(spanLeft);
 				td.childNodes[0].appendChild(spanRight);
+				//console.log(judgedArr[i]);
+				//console.log(td);
+				judgeAround("",judgedArr[i]);
+			}
+			else {
+				addDot("",judgedArr[i]);
+				//td.querySelector(".ship_r").style.background = "transparent";
 			}
 		}
 		judged_count = judgedArr.length-1;
-		console.log(judgedArr);
+		//console.log(judgedArr);
 	}
 	function judgedField(){
 		new SimpleAjax('judgedField.php','GET',"player_id="+player_id,judgedFieldSuccess);
 	}
+	var finishedCount = 0;
+	function finishOneShipSuccess(request){
+		if(request.responseText != ""){
+			var finished = request.responseText.split(',');
+			console.log(finished);
+			for (var i = finishedCount; i < finished.length-1; i++) {
+				addDot("",finished[i]);
 
+			}
+			finishedCount = finished.length-1;
+		}
+
+
+	}
+	function finishOneShip(){
+		new SimpleAjax('finishOneShip.php','GET',"player_id="+player_id,finishOneShipSuccess)
+	}
+	var li = document.querySelector("ul.ulOpponent li");
+	li[1].onclick = function(){
+		alert(1);
+	}
 	//alert(1);
 }

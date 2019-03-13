@@ -25,11 +25,22 @@ table {
 	position: relative;
 	z-index: 3;		
 }
-#table1{
+/*#table1{
 	float: left;
 	margin-left: 20%
 }
 #table2 {
+	float: right;
+	margin-right: 20%;
+}*/
+#table2 {
+	opacity: 0.4;
+}
+.divLeft {
+	float: left;
+	margin-left: 20%
+}
+.divRight {
 	float: right;
 	margin-right: 20%;
 }
@@ -89,10 +100,10 @@ div.ship_draggable {
     cursor: pointer !important;
     outline: 0;
     display: inline-block;
+    position: absolute;
 }
 .battlefield-start-button__disabled {
     cursor: default !important;
-    top: 0;
     opacity: .5;
     pointer-events: none;
 }
@@ -135,7 +146,38 @@ span.dot{
     margin-top: -2px;
     margin-left: -2px;
 }
-
+.battlefield-start-choose_rival{
+	float: right;
+	z-index: 3;
+	position: absolute;
+	right: 50%;
+	top: 25%;
+}
+.divRight {
+	position: relative;
+}
+.ulOpponent {
+	display: inline;
+	list-style-type: none;
+}
+.start-li {
+	display: inline;
+	margin-left: -.32em;
+	margin-right: .25em;
+}
+.rival-variant-link {
+	cursor: pointer !important;
+	padding: .12em .32em;
+}
+.rival-variant-link_connect{
+	background: #eee;
+	text-decoration: none;
+	color: #000;
+	cursor: text !important;
+}
+a {
+	color: #0034ab;
+}
 /*body {
 	background-color: red;
 }*/
