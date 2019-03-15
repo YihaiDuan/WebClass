@@ -2,7 +2,11 @@
 	$row = 11;
 	$colomn = 11;
 	$arr = array("A","B","C","D","E","F","G","H","I","J");
-	$url = $_SERVER['HTTP_HOST'];
+	// $url = $_SERVER['HTTP_HOST'];
+	$gid = "";
+	if(isset($_GET["gid"])){
+		$gid = $_GET["gid"];
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -13,7 +17,7 @@
 	<script type="text/javascript" src="js/simpleajax.js"></script>
 </head>
 <body>
-<div class="header"><h1>Battle ship <?=$url?></h1>
+<div class="header"><h1>Battle ship </h1> <h2 id="gid"><?=$gid?></h2>
 	<div class="notification">Arrange </div>
 </div>
 
@@ -62,7 +66,7 @@
 		<h3>Opponent</h3>
 		<ul class="ulOpponent">
 			<li class="start-li"><a class="rival-variant-link rival-variant-link_connect" href="">Robat</a> </li>
-			<li class="start-li start-li-active"><a class="rival-variant-link" href="www.baidu.com">Friend</a> </li>
+			<li class="start-li start-li-active"><a class="rival-variant-link" href="">Friend</a> </li>
 		</ul>
 		<div class="start-button">Start</div>
 	</div>

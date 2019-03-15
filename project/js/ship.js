@@ -4,6 +4,7 @@ window.onload = function() {
 	var rand = Math.floor(Math.random()*10);
 	oneOffset = 32;
 	var arr = [4,6,6,8,10];
+	var gid = document.querySelector("#gid").innerHTML;
 /*	var cell = new Array();
 	for (var i = 0; i < arr.length; i++) {
 		cell[i] = new Array();
@@ -304,6 +305,9 @@ window.onload = function() {
 		td.childNodes[0].style.background = "#fbf3be";
 
 		if(request.responseText[0] == "0"){
+			document.querySelector("#table2").style.opacity = 0.4;
+			document.querySelector("#table1").style.opacity = 1;
+			document.querySelector(".notification").innerHTML = "Waiting for your Opponent to Move!";
 			addDot("",judging_id);
 			endMouse();
 		}
@@ -314,7 +318,9 @@ window.onload = function() {
 			spanRight.className = "right";
 			td.childNodes[0].childNodes[0].appendChild(spanLeft);
 			td.childNodes[0].childNodes[0].appendChild(spanRight);
-			td.childNodes[0].childNodes[0].style.border = "none"
+			document.querySelector(".notification").innerHTML = "Your turn, Please!";
+			td.childNodes[0].childNodes[0].style.border = "none";
+
 			td.childNodes[0].childNodes[0].className += " ship"+request.responseText[1];
 			if(request.responseText[0] == "2"){
 				var shipClass = "ship"+request.responseText[1];
@@ -337,7 +343,7 @@ window.onload = function() {
 					addDot("",tdRight.id);
 					dots[1] = tdRight.id.substring(6);
 				}
-				new SimpleAjax('save.php','GET','dots='+dots+'&player_id='+player_id,okMsg);
+				new SimpleAjax('save.php','GET','gid='+gid+'&dots='+dots+'&player_id='+player_id,okMsg);
 				console.log("aa");
 
 			}
@@ -364,7 +370,7 @@ window.onload = function() {
 			}
 			td_table[i].onclick = function() {
 				judging_id = this.id;
-				new SimpleAjax('judge.php', 'GET', "player_id="+player_id+"&ship="+this.id, shipJudge);
+				new SimpleAjax('judge.php', 'GET', "gid="+gid+"&player_id="+player_id+"&ship="+this.id, shipJudge);
 			}
 		}
 	}
@@ -381,12 +387,13 @@ window.onload = function() {
 
 	function ok(request){
 		player_id = request.responseText;
-		//console.log(request.responseText);
+		console.log(request.responseText);
 	}
 	var waitingOpponentInterval = null;
 	var judgedFieldInterval = null;
 	var finishOneShipInterval = null;
 	document.querySelector(".start-button").onclick = function(){
+
 		var start_td = document.querySelectorAll(".hasShip");
 /*		for (var i = 0; i < start_td.length; i++) {
 			cell[i] = start_td[i].id;
@@ -406,23 +413,32 @@ window.onload = function() {
 			cell.push(row);
 		}
 		cell = JSON.stringify(cell);
-		new SimpleAjax('save.php', 'GET', "ship="+cell, ok);
+		new SimpleAjax('save.php', 'GET', "gid="+gid+"&ship="+cell, ok);
 		this.className += " battlefield-start-button__disabled";
 		var msg = document.querySelector(".notification");
 		msg.innerHTML = "Waiting for Opponent";
 		waitingOpponentInterval = setInterval(waitingOpponent,500);
+		for (var i = 0; i < ships.length; i++) {
+
+			ships[i].setAttribute("draggable","false");
+			ships[i].style.cursor = "default";
+
+	}
 		//console.log(cell);
 	}
 	function waitingOpponentSuccess(request){
 		//console.log(request.responseText);		
 		var msg = document.querySelector(".notification");
 		if(request.responseText == "1"){
+			document.querySelector(".battlefield-start-choose_rival").style.visibility = "hidden";
+			document.querySelector(".battlefield-start-choose_rival").style.zIndex = "-1";
 			clearInterval(waitingOpponentInterval);
 			waitingMoveInterval = setInterval(waitingMove,500);
 			judgedFieldInterval = setInterval(judgedField,1000);
 			finishOneShipInterval = setInterval(finishOneShip,500);
 			if(player_id == "0"){
 				msg.innerHTML = "Game Start, Chose a feild";
+				document.querySelector("#table2").style.opacity = 1;
 				stratMouse();
 			}
 			if(player_id == "1"){
@@ -431,18 +447,21 @@ window.onload = function() {
 		}
 	}
 	function waitingOpponent(){		
-		new SimpleAjax('waitingOpponent.php','GET','pairid',waitingOpponentSuccess)
+		new SimpleAjax('waitingOpponent.php','GET','gid='+gid,waitingOpponentSuccess)
 	}
 
 	var waitingMoveInterval = null;
 	function waitingMoveSuccess(request){
 		//console.log(request.responseText);
 		if(request.responseText == player_id){
+			document.querySelector("#table2").style.opacity = 1;
+			document.querySelector("#table1").style.opacity = 0.4;
+			document.querySelector(".notification").innerHTML = "Your turn, Please!";
 			stratMouse();
 		}
 	}
 	function waitingMove(){
-		new SimpleAjax('waitingMove.php','GET','pairid',waitingMoveSuccess);
+		new SimpleAjax('waitingMove.php','GET','gid='+gid,waitingMoveSuccess);
 	}
 	var judged_count = 0;
 	function judgedFieldSuccess(request){
@@ -473,7 +492,7 @@ window.onload = function() {
 		//console.log(judgedArr);
 	}
 	function judgedField(){
-		new SimpleAjax('judgedField.php','GET',"player_id="+player_id,judgedFieldSuccess);
+		new SimpleAjax('judgedField.php','GET',"gid="+gid+"&player_id="+player_id,judgedFieldSuccess);
 	}
 	var finishedCount = 0;
 	function finishOneShipSuccess(request){
@@ -490,11 +509,26 @@ window.onload = function() {
 
 	}
 	function finishOneShip(){
-		new SimpleAjax('finishOneShip.php','GET',"player_id="+player_id,finishOneShipSuccess)
+		new SimpleAjax('finishOneShip.php','GET',"gid="+gid+"&player_id="+player_id,finishOneShipSuccess)
 	}
-	var li = document.querySelector("ul.ulOpponent li");
+	var li = document.querySelectorAll("ul.ulOpponent li");
 	li[1].onclick = function(){
-		alert(1);
+		var randGid = Math.round(Math.random()*10000);
+		li[1].childNodes[0].href = "/edsa-webProject/?gid="+randGid;
+		
+	}
+	if(gid != ""){
+		var div = document.createElement("div");
+		var divchild = document.createElement("div");
+		divchild.style.marginTop = "2em";
+		var input = document.createElement("input");
+		input.value = "http://127.0.0.1/edsa-webProject/?gid="+gid;
+		input.style.width = "20em";
+		divchild.innerHTML = "Send the link to your fridend";
+
+		li[1].appendChild(div);
+		div.appendChild(divchild);
+		div.appendChild(input);
 	}
 	//alert(1);
 }

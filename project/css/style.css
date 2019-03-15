@@ -1,10 +1,9 @@
 .header {
 	width: 60%;
 	margin: auto;
-
 }
-h1 {
-
+#gid {
+	display: none;
 }
 .notification {
 	background: #f8f8f8;
@@ -150,15 +149,16 @@ span.dot{
 	float: right;
 	z-index: 3;
 	position: absolute;
-	right: 50%;
-	top: 25%;
+	left: 10%;
+	top: 15%;
+	width: 20em;
 }
 .divRight {
 	position: relative;
 }
 .ulOpponent {
-	display: inline;
 	list-style-type: none;
+	padding-left: 0;
 }
 .start-li {
 	display: inline;
