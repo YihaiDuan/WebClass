@@ -1,19 +1,72 @@
+body {
+  margin: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  color: #333333;
+  background-color: #ffffff;
+}
 .header {
 	width: 60%;
 	margin: auto;
+	margin-top: 1em;
 }
-#gid {
+#title {
+	display: inline;
+}
+#gid, #uname ,#table3{
 	display: none;
 }
 .notification {
 	background: #f8f8f8;
-	padding: .5em;
-	overflow: hidden;
+	padding:.5em 10em .5em 10em;
 	position: relative;
-	width: 40%;
-	margin: auto;
+	margin-left: 10%;
+	display: inline;
 }
-
+.logDiv {
+	float: right;
+}
+#signin,#signup, #logout{
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: #333;
+  background-color: #fff;
+  border-color: #ccc;
+}
+#signup {
+  color: #fff;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+#logout {
+  color: #fff;
+  background-color: #f0ad4e;
+  border-color: #eea236;
+  display: none;
+}
+#userSpan {
+	display: none;
+	padding: 6px 12px;
+	line-height: 1.42857143;
+	border-radius: 4px;
+}
+#loginDiv,#signupDiv {
+	display: none;
+	margin-left: 35%;
+	margin-top: 4em;
+	width: 30%;
+}
 #twoTable{
 	width: 100%;
 	margin: auto;
@@ -50,7 +103,7 @@ table td {
 	position: relative;
 }
 
-#table1 div.ship_r {
+#table1 div.ship_r, #table3 div.ship_r{
 	border: 3px solid #00f;
 	background: rgba(0,0,255,.05);
 	height: 2em;
@@ -74,6 +127,25 @@ table td {
 	visibility: hidden;
 }
 div.ship_draggable {
+	cursor: move;
+
+}
+.port-ship {
+	position: relative;
+    margin: 1.26em .7em;
+    float: left;
+    height: 2em;
+    border: 1px dotted #b2b2b9;
+}
+.port-ship .ship_r{
+	border: 3px solid #00f;
+	background: rgba(0,0,255,.05);
+	height: 2em;
+
+	z-index: 2;
+	margin: -2px;
+    
+    position: relative;
 	cursor: move;
 
 }
@@ -150,7 +222,7 @@ span.dot{
 	z-index: 3;
 	position: absolute;
 	left: 10%;
-	top: 15%;
+	top: 10%;
 	width: 20em;
 }
 .divRight {
@@ -158,12 +230,15 @@ span.dot{
 }
 .ulOpponent {
 	list-style-type: none;
-	padding-left: 0;
+	margin-left: 0;
 }
 .start-li {
 	display: inline;
 	margin-left: -.32em;
 	margin-right: .25em;
+}
+a {
+	color: #0034ab;
 }
 .rival-variant-link {
 	cursor: pointer !important;
@@ -172,12 +247,52 @@ span.dot{
 .rival-variant-link_connect{
 	background: #eee;
 	text-decoration: none;
+	padding: .12em .32em;
 	color: #000;
 	cursor: text !important;
+	border-radius: 4px;
 }
-a {
-	color: #0034ab;
+
+
+.bottom {
+	margin-top:5%; 
+	margin-bottom: 20px;
+	margin-left: 10%;
+
 }
+.bottom label {
+	display: inline;
+	margin-left: 20px;
+}
+.portnone {
+	margin-left: 10%;
+	width: 25%;
+	height: 400px;
+	display: none;
+	float: left;
+	/*position: absolute;*/
+
+}
+.port-instruction {
+	font-size: .8em;
+	margin-left: 10%;
+	margin-bottom: 2em;
+	margin-right: 2em;
+	line-height: 1.4;
+	visibility: hidden;
+}
+.port-lines{
+	/*height: 3em;*/
+	/*color: red;*/
+    position: relative;
+}
+.port-line{
+	position: relative;
+	height: 3em;
+	margin-top: 3em;
+	/*background-color:red;*/
+}
+
 /*body {
 	background-color: red;
 }*/

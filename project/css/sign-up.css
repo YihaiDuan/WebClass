@@ -1,0 +1,24 @@
+.left{
+	font-size:20px;
+}
+#logo{
+	
+	font-weight: bold;
+}
+.right .button {
+	float:right;
+
+}
+.sign-up-form{
+	text-align: center;
+	font-size: 14pt;
+}
+.sign-up-form div {
+	margin: 1em;
+
+}
+.sign-up-form label{
+	margin: 1em;
+
+
+}
