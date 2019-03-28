@@ -4,7 +4,6 @@ Array.prototype.indexOf = function (val) {
     }
     return -1;
 };
-
 Array.prototype.remove = function (val) {
     var index = this.indexOf(val);
     if (index > -1) {
@@ -18,15 +17,21 @@ window.onload = function() {
 	oneOffset = 32;
 	var arr = [4,6,6,8,10];
 	var gid = document.querySelector("#gid").innerHTML;
-	var robot = 0,robotid;
+	var history = document.querySelector("#his").innerHTML;
+	var robot = 0;
 	var randArr = new Array();
 	var robotJudge;
 	if(gid == "robot" || gid == ""){
 		robot = 1;
-		robotid = Math.floor(Math.random()*100000);
+		gid = "robot-"+Math.floor(Math.random()*100000);
+	}
+	console.log(robot);
+	function randomSuccess(request){
+		gid = request.responseText;
+		console.log(gid);
 	}
 	if(gid == "random"){
-		//new SimpleAjax('random.php','GET','',);
+		new SimpleAjax('random.php','GET','',randomSuccess);
 	}
 	var robotJudgeShip = new Array();
 	for (var i = 0; i < 100; i++) {
@@ -46,6 +51,7 @@ window.onload = function() {
 		document.querySelector("#userSpan").innerHTML = "Hello "+ UserName;
 		document.querySelector("#userSpan").style.display = "inline";
 		document.querySelector("#logout").style.display = "inline";
+		document.querySelector("#history").className = "";
 	}
 	var reset_ship = 0;
 	function Trim(str)
@@ -400,7 +406,7 @@ window.onload = function() {
 				robotJudge -= 1;
 			}
 			removeArrayAround(robotJudge);
-			new SimpleAjax('judge.php', 'GET', "gid="+robotid+"&player_id=1&ship=table3"+robotJudge,robotJudgeSuccess);
+			new SimpleAjax('judge.php', 'GET', "gid="+gid+"&player_id=1&ship=table3"+robotJudge,robotJudgeSuccess);
 			if(request.responseText[0] == "2");
 		}
 	}
@@ -434,7 +440,7 @@ window.onload = function() {
 				}
 				
 				console.log(robotJudge);
-				new SimpleAjax('judge.php', 'GET', "gid="+robotid+"&player_id=1&ship=table3"+robotJudge,robotJudgeSuccess);
+				new SimpleAjax('judge.php', 'GET', "gid="+gid+"&player_id=1&ship=table3"+robotJudge,robotJudgeSuccess);
 			}
 
 			
@@ -477,8 +483,6 @@ window.onload = function() {
 				if(!robot){
 					new SimpleAjax('save.php','GET','gid='+gid+'&dots='+dots+'&player_id='+player_id,okMsg);
 				}
-				
-				console.log("aa");
 
 			}
 			td.className = "busy_cell hasShip";
@@ -487,6 +491,8 @@ window.onload = function() {
 			td.onclick = null;
 			judgeAround("table2",judging_id.substring(6));
 			if(request.responseText[2] == "1"){
+				clearInterval(finishGameInterval);
+				new SimpleAjax('save.php','GET','gid='+gid+'&result=won'+'&UserName='+UserName+'&player_id='+player_id,okMsg);
 				alert("You Win!");
 			}
 		}
@@ -504,9 +510,9 @@ window.onload = function() {
 			}
 			td_table[i].onclick = function() {
 				judging_id = this.id;
-				if(robot)
+/*				if(robot)
 					new SimpleAjax('judge.php', 'GET', "gid="+robotid+"&player_id="+player_id+"&ship="+this.id, judgeSuccess);
-				else
+				else*/
 					new SimpleAjax('judge.php', 'GET', "gid="+gid+"&player_id="+player_id+"&ship="+this.id, judgeSuccess);
 			}
 		}
@@ -526,6 +532,7 @@ window.onload = function() {
 	var waitingOpponentInterval = null;
 	var judgedFieldInterval = null;
 	var finishOneShipInterval = null;
+	var finishGameInterval = null;
 	function shipJson(table,tds){
 		cell = [];
 		var ships = document.querySelectorAll("#"+table+" .ship_r");
@@ -554,7 +561,7 @@ window.onload = function() {
 		console.log(request.responseText);
 		if(robot){
 			shipJson("table3",tds3);
-			new SimpleAjax('save.php', 'GET', "gid="+robotid+"&ship="+cell);
+			new SimpleAjax('save.php', 'GET', "gid="+gid+"&ship="+cell+"&UserName="+UserName);
 		}
 	}
 	document.querySelector(".start-button").onclick = function(){
@@ -564,10 +571,10 @@ window.onload = function() {
 			cell[i] = start_td[i].id;
 		}*/
 		shipJson("table1",tds);
-		if(robot)
+/*		if(robot)
 			new SimpleAjax('save.php', 'GET', "gid="+robotid+"&ship="+cell, startok);
-		else
-			new SimpleAjax('save.php', 'GET', "gid="+gid+"&ship="+cell, startok);
+		else*/
+			new SimpleAjax('save.php', 'GET', "gid="+gid+"&ship="+cell+"&UserName="+UserName, startok);
 		this.className += " battlefield-start-button__disabled";
 		var msg = document.querySelector(".notification");
 
@@ -606,6 +613,7 @@ window.onload = function() {
 			waitingMoveInterval = setInterval(waitingMove,500);
 			judgedFieldInterval = setInterval(judgedField,1000);
 			finishOneShipInterval = setInterval(finishOneShip,500);
+			finishGameInterval = setInterval(finishGame,500);
 			if(player_id == "0"){
 				msg.innerHTML = "Game Start, Chose a feild";
 				document.querySelector("#table2").style.opacity = 1;
@@ -666,19 +674,19 @@ window.onload = function() {
 		//console.log(judgedArr);
 	}
 	function judgedField(){
-		if(robot){
+/*		if(robot){
 			new SimpleAjax('judgedField.php','GET',"gid="+robotid+"&player_id="+player_id,judgedFieldSuccess);
 		}
-		else{
+		else{*/
 			new SimpleAjax('judgedField.php','GET',"gid="+gid+"&player_id="+player_id,judgedFieldSuccess);
-		}
+		//}
 		
 	}
 	var finishedCount = 0;
 	function finishOneShipSuccess(request){
 		if(request.responseText != ""){
 			var finished = request.responseText.split(',');
-			console.log(finished);
+			//console.log(finished);
 			for (var i = finishedCount; i < finished.length-1; i++) {
 				addDot("",finished[i]);
 
@@ -689,12 +697,25 @@ window.onload = function() {
 
 	}
 	function finishOneShip(){
-		if(robot){
+/*		if(robot){
 			new SimpleAjax('finishOneShip.php','GET',"gid="+robotid+"&player_id="+player_id,finishOneShipSuccess);
-		}else{
+		}else{*/
 			new SimpleAjax('finishOneShip.php','GET',"gid="+gid+"&player_id="+player_id,finishOneShipSuccess);
-		}
+		//}
 		
+	}
+	function finishGameSuccess(request){
+		console.log("finish: ", request.responseText);
+		if(request.responseText != ""){
+			clearInterval(finishGameInterval);
+			new SimpleAjax('save.php','GET','gid='+gid+'&result=lost to'+'&UserName='+UserName+'&player_id='+player_id,okMsg);
+			alert("You lose!");
+
+
+		}
+	}
+	function finishGame(){
+		new SimpleAjax('finish.php','GET','gid='+gid,finishGameSuccess);
 	}
 	var li = document.querySelectorAll("ul.ulOpponent li");
 	li[0].onclick = function(){
@@ -712,7 +733,7 @@ window.onload = function() {
 
 	}
 	console.log("gid",gid);
-	if(gid == "robot" || gid == ""){
+	if(gid.substring(0,5) == "robot" || gid == ""){
 		console.log(111);
 		li[0].childNodes[0].className = "rival-variant-link_connect";
 		li[1].childNodes[0].className = "rival-variant-link";
@@ -742,6 +763,12 @@ window.onload = function() {
 	li[0].childNodes[0].className = "rival-variant-link";
 	li[1].childNodes[0].className = "rival-variant-link";
 }
+	if(history == "yes"){
+		document.querySelector("#twoTable").style.display = "none";
+		document.querySelector("#home").className = "";
+		document.querySelector("#history").className = "active";
+		document.querySelector("#record").style.display = "block";
+	}
 	document.querySelector("#signin").onclick = function(){
 		document.querySelector("#twoTable").style.display = "none";
 		document.querySelector("#signupDiv").style.display = "none";
@@ -760,6 +787,7 @@ window.onload = function() {
 		document.querySelector("#signup").style.display = "inline";
 		document.querySelector("#userSpan").style.display = "none";
 		document.querySelector("#logout").style.display = "none";
+		location.href="/edsa-webProject";
 	}
 	document.querySelector("#logout").onclick = function(){
 
@@ -772,7 +800,9 @@ window.onload = function() {
 		}else {
 			document.querySelector("#signupDiv").style.display = "none";
 			document.querySelector("#loginDiv").style.display = "block";
+
 		}
+		
 	}
 	document.querySelector("#SignUpbtn").onclick = function(){
 
@@ -805,6 +835,7 @@ window.onload = function() {
 			document.querySelector("#userSpan").innerHTML = "Hello "+ UserName;
 			document.querySelector("#userSpan").style.display = "inline";
 			document.querySelector("#logout").style.display = "inline";
+			location.reload();
 		}
 	}
 	document.querySelector("#SignInbtn").onclick = function(){
@@ -861,6 +892,14 @@ window.onload = function() {
     	port_line[1].removeChild(port_line[1].childNodes[0]);
     	port_line[1].removeChild(port_line[1].childNodes[0]);
     	port_line[2].removeChild(port_line[2].childNodes[0]);
+    }
+    document.getElementById("history").onclick = function(){
+    	if(UserName != "visitor")
+    		this.childNodes[0].href = "/edsa-webProject/?history=yes";
+    }
+    document.getElementById("home").onclick = function(){
+    	console.log(this.childNodes[0]);
+    	this.childNodes[0].href = "/edsa-webProject/";
     }
 }
 

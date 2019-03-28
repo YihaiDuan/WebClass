@@ -1,4 +1,5 @@
 <?php 
+	include "include.php";
 	session_start();
 	$uname = "visitor";
 	if(isset($_SESSION["uname"]))
@@ -6,11 +7,15 @@
 	$row = 11;
 	$colomn = 11;
 	$arr = array("A","B","C","D","E","F","G","H","I","J");
+	$pArr = array("label-primary","label-success","label-info","label-warning","label-danger");
 	// $url = $_SERVER['HTTP_HOST'];
 	$gid = "";
 	if(isset($_GET["gid"])){
 		$gid = $_GET["gid"];
 	}
+	$history = "";
+	if(isset($_GET["history"]))
+		$history = $_GET["history"];
 ?>
 <!DOCTYPE html>
 <html>
@@ -23,14 +28,27 @@
 	<script type="text/javascript" src="js/simpleajax.js"></script>
 </head>
 <body>
-<div class="header">
-	<h1 id="title">Battle ship </h1> <h2 id="gid"><?=$gid?></h2><h2 id="uname"><?=$uname?></h2>
-	<div class="notification">Arrange </div>
-	<div class="logDiv">
-		<span class="label label-info" id="userSpan">Info</span>
-		<input type="button"  value="SignIn" id="signin" >
+	    <ul class="nav nav-tabs">
+      <li id="home" class="active"><a href="#">Home</a></li>
+      <li id="history" class="disabled"><a href="#">History</a></li>
+      <li><a href="#">Help</a></li>
+      <span class="label label-info" id="userSpan">Info</span>
+      	<input type="button"  value="SignIn" id="signin" >
 		<input type="button"  value="SignUp" id="signup" >
 		<input type="button"  value="LogOut" id="logout" >
+    </ul>
+<div class="header">
+	<h1 id="title">Battle ship </h1> <h2 id="gid"><?=$gid?></h2><h2 id="uname"><?=$uname?></h2>
+	<h2 id="his"><?=$history?></h2>
+	<div class="notification">Arrange </div>
+	<div class="logDiv">
+		
+<!-- 		    <div class="btn-group">
+      <button class="btn">Left</button>
+      <button class="btn">Middle</button>
+      <button class="btn">Right</button>
+    </div> -->
+
 	</div>
 </div> 
 
@@ -172,5 +190,16 @@
       </div>
     </div> 
     </div>
+    <div id="record">
+    	<?php
+    		$records = file(get_user_forder($uname)."/history.txt");
+    		for($i=0; $i<count($records); $i++){
+    		?>
+    			<p class="label <?=$pArr[$i%5]?>"><?=$records[$i]?></p>
+    	<?php }?>
+
+
+    </div>
+
 </body>
 </html>

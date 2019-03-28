@@ -10,7 +10,7 @@
 	$ship = substr($ship, 6);
 	file_put_contents("$gid_forder/judged_field_$player_id.txt", "$ship,",FILE_APPEND);
 	$arr = file("$gid_forder/ship_$judge_id.txt");
-	for($i=0; $i<count($arr); $i++){
+	for($i=1; $i<count($arr); $i++){
 		$shipArr = explode(",", substr($arr[$i], 0,-1));
 /*		for($j=0; $j<count($shipArr); $j++){
 			echo $shipArr[$j]." ";
@@ -36,5 +36,5 @@
 		echo 0;
 		file_put_contents("$gid_forder/next_player.txt", $judge_id);
 	}
-	echo $done;
+	echo 1;
 ?>
